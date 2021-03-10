@@ -1,6 +1,8 @@
 import React from "react";
 
-class App extends React.Component{
+import 'bootswatch/dist/flatly/bootstrap.css'
+
+class Teste extends React.Component{
 
   state = {
     numero1 : '',
@@ -22,7 +24,7 @@ class App extends React.Component{
         <label>Digite o numero 2</label>
         <input type="text" value={this.state.numero2} onChange={(e) => this.setState({numero2 : e.target.value}) }/>
         <br/>
-        <button onClick={this.somar}>Soma</button>
+        <button onClick={this.somar} className="btn btn-primary">Soma</button>
         <br/>
         O resultado da soma é {this.state.resultado}
       </div>
@@ -39,4 +41,4 @@ function App() {
   );
 }
 */
-export default App;
+export default Teste;
