@@ -1,9 +1,28 @@
 import React from 'react'
+import UsuarioService from '../services/usuario-service'
+import storage from '../services/storage-service'
 
 class Home extends React.Component{
     state = {
         saldo : 0
     }
+
+    constructor(){
+        super()
+        this.usuarioService = new UsuarioService()
+    }
+
+    componentDidMount(){
+        const usuarioLogado = storage.obterItem('_usuario_logado')
+        if(usuarioLogado == null) return
+        this.usuarioService.obterSaldoPorUsuario(usuarioLogado.id)
+        .then(response => {
+            this.setState({saldo: response.data})
+        }).catch(erro => {
+            console.log(erro.response);
+        })
+    }
+
     render(){
         return(
             <div className="jumbotron">

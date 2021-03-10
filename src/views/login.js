@@ -1,7 +1,10 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import Card from '../componentes/card'
 import FormGroup from '../componentes/form-group'
-import { withRouter } from 'react-router-dom'
+import UsuarioService from '../services/usuario-service'
+import storage from '../services/storage-service'
+import { mensagemErro } from '../componentes/toastr'
 
 class Login extends React.Component{
     state ={
@@ -9,9 +12,21 @@ class Login extends React.Component{
         senha: ''
     }
 
+    constructor(){
+        super()
+        this.service = new UsuarioService()
+    }
+
     entrar = () => {
-        console.log(`Email: ` + this.state.email);
-        console.log(`Senha: ` + this.state.senha);
+        this.service.autenticar({
+            email: this.state.email,
+            senha: this.state.senha
+        }).then(response => {
+            storage.adicionarItem('_usuario_logado', response.data)
+            this.props.history.push('/home')
+        }).catch(erro => {
+            mensagemErro(erro.response.data);
+        })
     }
 
     prepareCadastrar = () => {
