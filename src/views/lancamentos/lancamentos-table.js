@@ -1,6 +1,7 @@
 import React from 'react'
 import currencyFormatter from 'currency-formatter'
-export default (props) => {
+
+const table = (props) => {
 
     const rows = props.linhas.map( (lanc) => {
         return (
@@ -11,7 +12,7 @@ export default (props) => {
                 <td>{lanc.mes}</td>
                 <td>{lanc.status}</td>
                 <td>
-                    <button type="button" className="btn btn-primary" onClick={e => props.editAction(lanc)}>Editar</button>
+                    <button type="button" className="btn btn-primary" onClick={e => props.editAction(lanc.id)}>Editar</button>
                     <button type="button" className="btn btn-danger"  onClick={e => props.deleteAction(lanc)}>Deletar</button>
                 </td>
             </tr>
@@ -38,3 +39,5 @@ export default (props) => {
     )
 
 }
+
+export default table // o export pode ser implicito tambem exportando diretamente a funcao

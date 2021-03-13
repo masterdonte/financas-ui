@@ -2,8 +2,6 @@ import React from "react";
 import Rotas from './rotas'
 import Navbar from "../componentes/navbar"
 
-import { Button } from 'primereact/button';
-
 import 'toastr/build/toastr.min.js'
 
 import 'bootswatch/dist/flatly/bootstrap.css'
@@ -20,7 +18,6 @@ class App extends React.Component{
     return(
       <>
         <Navbar/>
-        <Button label="Click" icon="pi pi-check" />
         <div className="container">
             <Rotas/>
         </div>

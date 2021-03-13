@@ -32,6 +32,10 @@ class LancamentoService extends ApiService{
         ]
     }
 
+    salvar(lancamento){
+        return this.post('/', lancamento)
+    }
+
     consultar(filtro){
         let recurso = `?usuario=${filtro.usuario}`
        

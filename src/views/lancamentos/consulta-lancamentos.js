@@ -8,8 +8,10 @@ import LancamentosTable from './lancamentos-table'
 import LancamentoService from '../../services/lancamento-service'
 import storage from '../../services/storage-service'
 import * as messages from '../../componentes/toastr'
+import { confirmDialog } from 'primereact/confirmdialog'; // To use confirmDialog method | ConfirmDialog To use <ConfirmDialog> tag
 
 class ConsultaLancamentos extends React.Component{
+
     constructor(){
         super();
         this.service = new LancamentoService();
@@ -20,14 +22,33 @@ class ConsultaLancamentos extends React.Component{
         mes: '',
         tipo:'',
         descricao: '',
+        selected: {},
         lancamentos: []
     }
 
+    confirmarDelecao = (lanc) => {
+        this.setState({selected:lanc})
+        confirmDialog({
+            message: 'Tem certeza que deseja exluir este registro?',
+            header: 'Confirmação de exclusão',
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-danger',
+            accept: () => this.deletar(),
+            reject: () => this.cancelar()
+        });
+    };
+
     editar = (id) => {
-        console.log(`Editando o lancamento de id ${id}`);
+        this.props.history.push(`/cadastro-lancamentos/${id}`)
     }
 
-    deletar = (lanc) => {
+    cancelar = () => {
+        console.log('cancelando')
+        this.setState({selected:{}})
+    }
+
+    deletar = () => {
+        const lanc = this.state.selected;
         this.service
             .deletar(lanc.id)
             .then(response =>{
@@ -66,7 +87,10 @@ class ConsultaLancamentos extends React.Component{
             }).catch(erro => {                
                 messages.mensagemErro(erro.response.data);
             })
-        console.log(this.state);
+    }
+
+    prepareCadastrar = () => {
+        this.props.history.push('/cadastro-lancamentos')
     }
     
     render(){
@@ -105,7 +129,7 @@ class ConsultaLancamentos extends React.Component{
                             </FormGroup>                           
                             
                             <button onClick={this.buscar} type="button" className="btn btn-success">Buscar</button>
-                            <button onClick={this.cadastrar} type="button" className="btn btn-danger">Cadastrar</button>
+                            <button onClick={this.prepareCadastrar} type="button" className="btn btn-danger">Cadastrar</button>
                         </div>
                     </div>
                 </div>
@@ -114,7 +138,7 @@ class ConsultaLancamentos extends React.Component{
                     <div className="col-lg-12">
                         <div className="bs-component">
                             <LancamentosTable linhas={this.state.lancamentos} 
-                                deleteAction={this.deletar} 
+                                deleteAction={this.confirmarDelecao} 
                                 editAction={this.editar}/>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default (props) => {
+const select = (props) => {
     
     const options = props.lista.map( (option, index) => {
         return (
@@ -14,5 +14,7 @@ export default (props) => {
         </select>
     )
 }
+
+export default select
 // index => para o Dom do react poder mapear cada item corretmente e tb nao reclamar no console
 // spread operator => joga todas as propriedades passadas diretamente para o componente
