@@ -22,23 +22,36 @@ class CadastroLancamentos extends React.Component{
         mes: '',
         ano: '',
         tipo:'',
-        status: ''
+        status: null,
+        usuario: null
     }
 
     componentDidMount(){
         const params = this.props.match.params
-        console.log(params)
+        if(params.id){
+            this.service.obterPorId(params.id)
+                .then( response => this.setState({...response.data}))
+                .catch(error => messages.mensagemErro(error.response.data))
+        }
     }
 
     submit = () => {
         const logado = storage.obterItem('_usuario_logado')
-        const {descricao, valor, mes, ano, tipo } = this.state
-        const lancamento = {descricao, valor, mes, ano, tipo, usuario: logado.id }
+        const {id, descricao, valor, mes, ano, tipo, status } = this.state
+        const lancamento = {id, descricao, valor, mes, ano, tipo, status, usuario: logado.id }
+
+        try{
+            this.service.validar(lancamento)
+        }catch(err){
+            const msgs = err.mensagens
+            msgs.forEach(msg => messages.mensagemErro(msg))
+            return false
+        }
 
         this.service.salvar(lancamento)
             .then(() =>{
                 this.props.history.push('/consulta-lancamentos')
-                messages.mensagemSucesso('Usuário cadastrado com sucesso')
+                messages.mensagemSucesso(id ? 'Lançamento atualizado.' : 'Lançamento cadastrado.')
             }).catch(error =>{
                 messages.mensagemErro(error.response.data)
             })
@@ -55,7 +68,7 @@ class CadastroLancamentos extends React.Component{
         const tipos = this.service.obterListaTipos()
 
         return(
-            <Card title="Cadastro Lançamento">
+            <Card title={ this.state.id ? 'Atualizar Lançamento' : 'Cadastrar Lançamento' }>
                 <div className="row">
                     <div className="col-lg-12">
                         <FormGroup label="Descrição: *" htmlFor="inputDescricao">

@@ -43,7 +43,6 @@ class ConsultaLancamentos extends React.Component{
     }
 
     cancelar = () => {
-        console.log('cancelando')
         this.setState({selected:{}})
     }
 
@@ -56,12 +55,11 @@ class ConsultaLancamentos extends React.Component{
                 const index = lancamentos.indexOf(lanc);
                 lancamentos.splice(index, 1)// apagando 1 elemento a partir daquele índice
                 this.setState(lancamentos); // this.setState({lancamentos:lancamentos});
-                messages.mensagemSucesso('Lançamento deletado com sucesso')
+                messages.mensagemSucesso('Lançamento deletado.')
             }).catch(erro => {               
                 console.log(Object.getOwnPropertyNames(erro.response.data))
                 messages.mensagemErro(erro.response.data);
             })
-        console.log(`Deletando o lancamento de id ${lanc.id}`);
     }
 
     buscar = () => {

@@ -1,4 +1,5 @@
 import ApiService from './api-service'
+import ErroValidacao from './erro-validacao'
 
 class LancamentoService extends ApiService{
 
@@ -13,7 +14,7 @@ class LancamentoService extends ApiService{
             {label: 'Fevereiro', value: 2},
             {label: 'Março',     value: 3},
             {label: 'Abril',     value: 4},
-            {label: 'AMio',      value: 5},
+            {label: 'Maio',      value: 5},
             {label: 'Junho',     value: 6},
             {label: 'Julho',     value: 7},
             {label: 'Agosto',    value: 8},
@@ -32,8 +33,43 @@ class LancamentoService extends ApiService{
         ]
     }
 
+    validar(lanc){
+        const erros = []
+
+        if(!lanc.descricao){
+            erros.push('Informe a Descrição.')
+        }
+
+        if(!lanc.ano){
+            erros.push('Informe a Ano.')
+        }
+
+        if(!lanc.mes){
+            erros.push('Informe a Mês.')
+        }
+
+        if(!lanc.valor){
+            erros.push('Informe a Valor.')
+        }
+
+        if(!lanc.tipo){
+            erros.push('Informe a Tipo.')
+        }
+
+        if(erros && erros.length > 0)
+            throw new ErroValidacao(erros)
+
+    }
+
+    obterPorId(id){
+        return this.get(`/${id}`)
+    }
+
     salvar(lancamento){
-        return this.post('/', lancamento)
+        if(lancamento.id)
+            return this.put(`/${lancamento.id}`, lancamento)
+        else
+            return this.post('/', lancamento)
     }
 
     consultar(filtro){

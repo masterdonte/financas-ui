@@ -18,7 +18,7 @@ class ApiService{
 
     put(recurso, objeto){
         const url = `${this.apiurl}${recurso}`
-        return http.post(url, objeto)
+        return http.put(url, objeto)
     }
 
     delete(recurso){
