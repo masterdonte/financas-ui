@@ -81,7 +81,9 @@ class ConsultaLancamentos extends React.Component{
 
         this.service.consultar(filtro)
             .then(resp => {
-                this.setState({lancamentos: resp.data})
+                const lista = resp.data
+                if( lista.length < 1 ) messages.mensagemAlerta('Nenhum resultado encontrado')
+                this.setState({lancamentos: lista})
             }).catch(erro => {                
                 messages.mensagemErro(erro.response.data);
             })
@@ -89,6 +91,22 @@ class ConsultaLancamentos extends React.Component{
 
     prepareCadastrar = () => {
         this.props.history.push('/cadastro-lancamentos')
+    }
+
+    alterarStatus = (lancamento, status) => {
+        this.service.alterarStatus(lancamento.id, status)
+            .then(response => {
+                const lancamentos = this.state.lancamentos
+                const index = lancamentos.indexOf(lancamento)
+                if(index !== -1){
+                    lancamento['status'] = status
+                    lancamentos[index] = lancamento // Os 4 jeitos abaixo funcionaram e nao entendi o porque
+                    this.setState({lancamentos}) // this.setState(lancamentos)  this.setState({lancamento}) this.setState(lancamento)
+                }
+                messages.mensagemSucesso('Status atualizado');
+            }).catch(error => {
+                messages.mensagemErro(error.response.data);
+            })
     }
     
     render(){
@@ -126,8 +144,12 @@ class ConsultaLancamentos extends React.Component{
                                         onChange={e => this.setState({tipo:e.target.value})}/>                                                            
                             </FormGroup>                           
                             
-                            <button onClick={this.buscar} type="button" className="btn btn-success">Buscar</button>
-                            <button onClick={this.prepareCadastrar} type="button" className="btn btn-danger">Cadastrar</button>
+                            <button onClick={this.buscar} type="button" className="btn btn-success">
+                                <i className="pi pi-search-plus"/> Buscar
+                            </button>
+                            <button onClick={this.prepareCadastrar} type="button" className="btn btn-danger">
+                                <i className="pi pi-plus-circle"/> Cadastrar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -137,7 +159,8 @@ class ConsultaLancamentos extends React.Component{
                         <div className="bs-component">
                             <LancamentosTable linhas={this.state.lancamentos} 
                                 deleteAction={this.confirmarDelecao} 
-                                editAction={this.editar}/>
+                                editAction={this.editar}
+                                editStatus={this.alterarStatus}/>
                         </div>
                     </div>
                 </div>

@@ -33,6 +33,11 @@ class LancamentoService extends ApiService{
         ]
     }
 
+    alterarStatus(id, status){
+        // const lancamento = {status : status}// => lancamento = { status }
+        return this.put(`/${id}/status`, {status})
+    }
+
     validar(lanc){
         const erros = []
 

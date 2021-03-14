@@ -12,8 +12,24 @@ const table = (props) => {
                 <td>{lanc.mes}</td>
                 <td>{lanc.status}</td>
                 <td>
-                    <button type="button" className="btn btn-primary" onClick={e => props.editAction(lanc.id)}>Editar</button>
-                    <button type="button" className="btn btn-danger"  onClick={e => props.deleteAction(lanc)}>Deletar</button>
+                    <button type="button" className="btn btn-success" title="Efetivar"
+                            disabled={lanc.status !== 'PENDENTE'}
+                            onClick={e => props.editStatus(lanc, 'EFETIVADO')}>
+                            <i className="pi pi-check"></i>
+                    </button>
+                    <button type="button" className="btn btn-warning" title="Cancelar"
+                            disabled={lanc.status !== 'PENDENTE'}
+                            onClick={e => props.editStatus(lanc, 'CANCELADO')}>
+                            <i className="pi pi-times"></i>
+                    </button>
+                    <button type="button" className="btn btn-primary" title="Editar"
+                            onClick={e => props.editAction(lanc.id)}>
+                            <i className="pi pi-pencil"></i>
+                    </button>
+                    <button type="button" className="btn btn-danger" title="Deletar"
+                            onClick={e => props.deleteAction(lanc)}>
+                            <i className="pi pi-trash"></i>
+                    </button>
                 </td>
             </tr>
         )
