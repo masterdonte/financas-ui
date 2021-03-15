@@ -37,8 +37,10 @@ function Rotas(props){
     )
 }
 
-export default ()  => (
+const consumer = ()  => (
     <AuthConsumer>
         { (context)=>(<Rotas authenticated={context.isAutenticado} />) }
     </AuthConsumer>
 )
+
+export default consumer

@@ -23,8 +23,10 @@ function Navbar(props){
     )
 }
 
-export default ()  => (
+const consumer = ()  => (
     <AuthConsumer>
         { (context)=>(<Navbar authenticated={context.isAutenticado} logout={context.encerrarSessao}/>) }
     </AuthConsumer>
 )
+
+export default consumer

@@ -16,14 +16,14 @@ class CadastroLancamentos extends React.Component{
     }
 
     state = {
-        id: null,
+        id: '',
         descricao: '',
         valor: '',
         mes: '',
         ano: '',
         tipo:'',
-        status: null,
-        usuario: null
+        status: '',
+        usuario: ''
     }
 
     componentDidMount(){
