@@ -1,6 +1,7 @@
 import React from "react";
 import Rotas from './rotas'
-import Navbar from "../componentes/navbar"
+import Navbar from '../componentes/navbar'
+import ProviderAuth from '../services/provider-auth'
 
 import 'toastr/build/toastr.min.js'
 
@@ -16,12 +17,12 @@ class App extends React.Component{
 
   render(){
     return(
-      <>
+      <ProviderAuth>
         <Navbar/>
         <div className="container">
             <Rotas/>
         </div>
-      </>
+      </ProviderAuth>     
     );
   }
 }

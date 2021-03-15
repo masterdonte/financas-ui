@@ -1,6 +1,6 @@
 import React from 'react'
 import UsuarioService from '../services/usuario-service'
-import storage from '../services/storage-service'
+import { AuthContext } from '../services/provider-auth'
 
 class Home extends React.Component{
     state = {
@@ -13,7 +13,7 @@ class Home extends React.Component{
     }
 
     componentDidMount(){
-        const usuarioLogado = storage.obterItem('_usuario_logado')
+        const usuarioLogado = this.context.usuarioAutenticado
         if(usuarioLogado == null) return
         this.usuarioService.obterSaldoPorUsuario(usuarioLogado.id)
         .then(response => {
@@ -44,4 +44,5 @@ class Home extends React.Component{
     }
 }
 
+Home.contextType = AuthContext
 export default Home
