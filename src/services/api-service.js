@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const http = axios.create({
     //baseURL: 'http://localhost:8080'
-    baseURL: 'http://10.10.2.131:8080'
+    baseURL: 'https://aerarium-api.herokuapp.com/'
 })
 
 class ApiService{
